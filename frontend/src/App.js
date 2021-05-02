@@ -53,6 +53,7 @@ function App() {
           <button className="btn btn-primary mt-2" onClick={submitHandler}>
             Search
           </button>
+       
         </div>
           
         <div className="card mt-3 mx-auto" style={{ width: '60vw' }}>

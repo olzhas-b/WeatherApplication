@@ -1,5 +1,8 @@
+
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
+from weatherAPI.newtonraphsonpy import NewtonRaphson
+
 import requests
 import collections
 import json
@@ -14,6 +17,11 @@ PARAMS = {
     'appid' : API_KEY,
 }
 
+def convertKtoC(a):
+    finder = NewtonRaphson(epsilon=0.001)
+    avg = finder.solve(a)
+    return avg
+
 def get_weather(request, city):
     if request.method == 'GET':
         if len(city) != 0:
@@ -25,7 +33,6 @@ def get_weather(request, city):
         d = collections.defaultdict(int)
         country = response_json['city']['country']
         data = []
-        k = 123
         # prev = response_json['list'][0]['dt_txt'][0:10]
         prev = ""
         print(prev)
@@ -48,6 +55,8 @@ def get_weather(request, city):
 
             date = day['dt_txt'][0:10]
             if date != prev and len(prev) != 0:
+                my_day['temp_min'] = convertKtoC(my_day['temp_min'])
+                my_day['temp_max'] = convertKtoC(my_day['temp_max'])
                 data.append(my_day)
                 my_day = initial_day
                 prev = date

@@ -1,10 +1,11 @@
-import React, {useContext, useEffect} from "react";
+import React, {useContext, useEffect, useState} from "react";
 
 import countries from 'i18n-iso-countries';
 countries.registerLocale(require('i18n-iso-countries/langs/en.json'));
 export default function Weather({...props}) {  
-    const kelvinToFarenheit = (k) => {
-        return (k - 273.15).toFixed(2);
+    const [data, setData] = useState(0);
+    const submitHandler = () => {
+        setData((props.item.temp_max + props.item.temp_min) / 2);
       };
     return <div class="card-body text-center">
             {/* <img
@@ -14,7 +15,7 @@ export default function Weather({...props}) {
             /> */}
 
             <p className="h2">
-            {props.item.day}&deg; C
+            {props.item.day}
             </p>
 
             <p className="h5">
@@ -26,18 +27,20 @@ export default function Weather({...props}) {
 
             <div className="row mt-4">
             <div className="col-md-6">
+            
+            <p>
+                <i className="fas fa-temperature-high"></i>{' '}
+                <strong>
+                    {props.item.temp_max.toFixed(2)}&deg; C
+                </strong>
+                </p>
                 <p>
                 <i class="fas fa-temperature-low "></i>{' '}
                 <strong>    
-                    {kelvinToFarenheit(props.item.temp_min)}&deg; C
+                    {props.item.temp_min.toFixed(2)}&deg; C
                 </strong>
                 </p>
-                <p>
-                <i className="fas fa-temperature-high"></i>{' '}
-                <strong>
-                    {kelvinToFarenheit(props.item.temp_max)}&deg; C
-                </strong>
-                </p>
+                
                 <p>
                     {props.item.day}
                 </p>
@@ -48,10 +51,19 @@ export default function Weather({...props}) {
                 {/* <strong>{apiData.weather[0].main}</strong> */}
                 </p>
                 <p>
+                    <div>
                 <strong>
-                    {props.item.temp}
+                    {data.toFixed(2)}C
+
                 </strong>
+                <div style={{width:"20px", display:"inline-block", marginLeft:"10px"}}>
+                    <button className="btn btn-primary mt-1" onClick={submitHandler}>
+                        Average 
+                    </button>
+                </div>
+                </div>
                 </p>
+                
             </div>
             </div>
         </div>
