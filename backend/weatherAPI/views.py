@@ -1,8 +1,8 @@
 
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
-from weatherAPI.newtonraphsonpy import NewtonRaphson
-
+# from weatherAPI.newtonraphsonpy import NewtonRaphson
+from weatherAPI.myWeather import MyWeather
 import requests
 import collections
 import json
@@ -18,12 +18,20 @@ PARAMS = {
 }
 
 def convertKtoC(a):
-    finder = NewtonRaphson(epsilon=0.001)
-    avg = finder.solve(a)
+    # finder = NewtonRaphson(epsilon=0.001)
+    # avg = finder.solve(a)
+    avg = 4
     return avg
 
 def get_weather(request, city):
     if request.method == 'GET':
+
+        print("aAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+        m = MyWeather(x=1, y=2)
+        print(m.getAvg())
+        print(m.getKelvinMax())
+
+
         if len(city) != 0:
             PARAMS['q'] = city
         response = requests.get(url=URL, params=PARAMS)
